@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue 3 Concepts</title>
+    <script src="https://unpkg.com/vue@3.0.11/dist/vue.js"></script>
+</head>
+<body>
+    <!-- 1. Template Syntax -->
+    <div id="app">
+        <h2>1. Template Syntax</h2>
+        <!-- a. Text Interpolation -->
+        <div>{{ message }}</div>
+        <!-- b. Raw HTML [v-html] -->
+        <div v-html="rawHTML"></div>
+        <!-- c. Attribute Bindings [v-bind:id] -->
+        <div :id="elementId">This div has a dynamic ID.</div>
+        <!-- d. JavaScript expressions inside syntax i.e. {{ }} -->
+        <div>{{ count * 2 }}</div>
+    </div>
+
+    <!-- 2. Methods -->
+    <div id="methods-example">
+        <h2>2. Methods</h2>
+        <div>
+            <button @click="increment">Increment</button>
+            <p>{{ count }}</p>
+        </div>
+    </div>
+
+    <!-- 3. Reactivity Fundamentals [ref(), <script setup>] -->
+    <div id="reactivity-example">
+        <h2>3. Reactivity Fundamentals</h2>
+        <div>
+            <p>Counter: {{ counter }}</p>
+            <button @click="increment">Increment</button>
+        </div>
+    </div>
+
+    <!-- 4. Computed Properties -->
+    <div id="computed-example">
+        <h2>4. Computed Properties</h2>
+        <div>
+            <p>Radius: <input v-model="radius" type="number"></p>
+            <p>Area: {{ calculateArea }}</p>
+        </div>
+    </div>
+
+    <!-- 5. Class and Style Bindings -->
+    <div id="class-style-example">
+        <h2>5. Class and Style Bindings</h2>
+        <!-- a. Binding HTML class [v-bind:class] -->
+        <div :class="{ active: isActive, error: hasError }">Styled Div</div>
+        <!-- b. Binding Inline Styles [v-bind:style] -->
+        <div :style="{ color: textColor, fontSize: fontSize + 'px' }">Styled Text</div>
+    </div>
+
+    <!-- 6. List Rendering -->
+    <div id="list-rendering-example">
+        <h2>6. List Rendering</h2>
+        <!-- a. v-for with an Object -->
+        <ul>
+            <li v-for="(value, key) in person" :key="key">{{ key }}: {{ value }}</li>
+        </ul>
+        <!-- b. v-for with a Range -->
+        <ul>
+            <li v-for="n in 5" :key="n">Item {{ n }}</li>
+        </ul>
+        <!-- c. v-for on <template> -->
+        <ul>
+            <template v-for="item in items">
+                <li :key="item.id">{{ item.name }}</li>
+            </template>
+        </ul>
+        <!-- d. v-for with v-if -->
+        <ul>
+            <li v-for="item in items" :key="item.id" v-if="item.active">{{ item.name }}</li>
+        </ul>
+        <!-- e. v-for with a Component -->
+        <ul>
+            <custom-list-item
+                v-for="item in items"
+                :key="item.id"
+                :item="item"
+            ></custom-list-item>
+        </ul>
+    </div>
+
+    <!-- 7. Event Handling: Listening to Events [v-on:click] -->
+    <div id="event-handling-example">
+        <h2>7. Event Handling</h2>
+        <!-- a. Inline Handlers -->
+        <button @click="showMessage">Click me</button>
+        <!-- b. Method Handlers -->
+        <button @click="sayHello">Say Hello</button>
+    </div>
+
+    <!-- 8. Form Input Bindings -->
+    <div id="form-input-example">
+        <h2>8. Form Input Bindings</h2>
+        <p>Text Input: <input v-model="textInput" type="text"></p>
+        <p>Checkbox: <input v-model="isChecked" type="checkbox"></p>
+        <p>Radio: <input v-model="selectedRadio" type="radio" value="Option 1"> Option 1
+            <input v-model="selectedRadio" type="radio" value="Option 2"> Option 2
+        </p>
+        <p>Select: 
+            <select v-model="selectedOption">
+                <option value="Option 1">Option 1</option>
+                <option value="Option 2">Option 2</option>
+            </select>
+        </p>
+        <p>Textarea:</p>
+        <textarea v-model="textArea"></textarea>
+    </div>
+
+    <!-- 9. Watchers -->
+    <div id="watcher-example">
+        <h2>9. Watchers</h2>
+        <p>Watched Value: {{ watchedValue }}</p>
+        <input v-model="inputValue" type="text">
+    </div>
+
+    <!-- 10. Components -->
+    <div id="components-example">
+        <h2>10. Components</h2>
+        <custom-component :message="componentMessage"></custom-component>
+    </div>
+
+    <!-- 11. Router -->
+    <div id="router-example">
+        <h2>11. Router</h2>
+        <!-- Implement Vue Router here if needed -->
+    </div>
+
+    <script>
+        // Vue 3 examples
+        const app = Vue.createApp({
+            data() {
+                return {
+                    message: 'Hello, Vue!',
+                    rawHTML: '<strong>Rendered as HTML</strong>',
+                    elementId: 'dynamic-id',
+                    count: 5,
+                    isActive: true,
+                    hasError: false,
+                    textColor: 'blue',
+                    fontSize: 16,
+                    radius: 0,
+                    calculateArea: 0,
+                    person: { name: 'John', age: 30, city: 'New York' },
+                    items: [
+                        { id: 1, name: 'Item 1', active: true },
+                        { id: 2, name: 'Item 2', active: false },
+                        { id: 3, name: 'Item 3', active: true }
+                    ],
+                    textInput: '',
+                    isChecked: false,
+                    selectedRadio: '',
+                    selectedOption: '',
+                    textArea: '',
+                    watchedValue: '',
+                    inputValue: '',
+                    componentMessage: 'Hello from the component!'
+                };
+            },
+            methods: {
+                increment() {
+                    this.count++;
+                },
+                showMessage() {
+                    alert('Inline Event Handler');
+                },
+                sayHello() {
+                    this.showMessage();
+                }
+            }
+        });
+
+        // Component for
